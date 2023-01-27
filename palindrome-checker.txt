@@ -1,0 +1,18 @@
+function palindrome(str) {
+  let newStr = str;
+  // Step 1: remove all non-alphanumeric characters
+  newStr = newStr.replace(/[^A-Za-z0-9]/g,"");
+  // Step 2: convert to lower case
+  newStr = newStr.toLowerCase();
+  // Step 3: loop through the first half of the string...
+  // and compare characters to the second half in reverse order
+  for (let i=0; i<Math.floor(newStr.length/2); i++) {
+    // Math.floor() rounds down the string half-length...
+    // so that it ignores the middle character if the...
+    // number of characters is odd.
+    if (newStr[i] != newStr[newStr.length-i-1]) {
+      return false;
+    }
+  }
+  return true;
+}

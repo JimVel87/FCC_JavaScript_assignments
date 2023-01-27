@@ -1,0 +1,48 @@
+function checkCashRegister(price, cash, cid) {
+  let change = cash - price;
+  let totalCash = 0;
+  for (let i=0; i<cid.length; i++) {
+    totalCash += cid[i][1];
+  }
+  // We need to round due to imprecise representation of decimals in some of the cid values:
+  totalCash = parseFloat(totalCash.toFixed(2));
+  // If cash-in-drawer is less than change due:
+  if (totalCash < change) {
+    return {status: "INSUFFICIENT_FUNDS", change: []}; }
+  // If cash-in-drawer exactly equal to change due:
+  if (totalCash == change) {
+    return {status: "CLOSED", change: cid}; }
+  // If more cash-in-drawer, check if exact change:
+  let checkChange = change;
+  let changeArr = [["ONE HUNDRED"], ["TWENTY"], ["TEN"], ["FIVE"], ["ONE"], ["QUARTER"], ["DIME"], ["NICKEL"], ["PENNY"]];
+  let denom = 0;
+  const denArr = [0.01, 0.05, 0.1, 0.25, 1, 5, 10, 20, 100];
+  for (let j=8; j>=0; j--) {
+    checkChange = parseFloat(checkChange.toFixed(2)); // round again
+    if (checkChange >= denArr[j]) { // if change can be covered with these notes/coins at least partially
+      denom = Math.floor(checkChange/denArr[j]); // # of notes/coins to give
+      if (denArr[j]*denom >= cid[j][1]) { // if more change to give than what there is in the drawer for these notes/coins
+        checkChange -= cid[j][1]; // remaining change to give
+        changeArr[8-j].push(cid[j][1]); // change to give for these notes/coins
+      } else { // if sufficient in the drawer to give change for these notes/coins
+        checkChange -= denArr[j]*denom; // remaining change to give
+        changeArr[8-j].push(denArr[j]*denom); // change to give for these notes/coins
+      }
+    } else { // if change needs smaller notes/coins
+      changeArr[8-j].push(0); // no change to give for these notes/coins
+    }
+  }
+  if (checkChange >0) { // if there is still change to give...
+  // ...it means that we cannot give the exact change
+    return {status: "INSUFFICIENT_FUNDS", change: []}
+  } else { // exact change given
+    for (let k=0; k<changeArr.length; k++) {
+      // remove elements where amount is zero:
+      if (changeArr[k][1] == 0) {
+        changeArr.splice(k,1);
+        k--;
+      }
+    }
+    return {status: "OPEN", change: changeArr};
+  }
+}

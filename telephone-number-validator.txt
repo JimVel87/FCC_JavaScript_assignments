@@ -1,0 +1,16 @@
+function telephoneCheck(str) {
+  // There are 5 patterns, 3 with optional '1 ' at the beginning, 1 with optional '1' at the beginning and one with no country code at all:
+  // First: 1 555-555-5555 (dashes)
+  // Second: 1 555 555 5555 (spaces)
+  // Third: 1 (555) 555-5555 (mixed)
+  // Fourth: 1(555)555-5555 (mixed with no spaces)
+  // Fifth: 5555555555 (no grouping)
+  if (/^(1 )?[0-9]{3,3}-[0-9]{3,3}-[0-9]{4,4}/.test(str) || 
+    /^(1 )?[0-9]{3,3} [0-9]{3,3} [0-9]{4,4}/.test(str) || 
+    /^(1 )?\([0-9]{3,3}\) [0-9]{3,3}-[0-9]{4,4}/.test(str) || 
+    /^(1)?\([0-9]{3,3}\)[0-9]{3,3}-[0-9]{4,4}/.test(str) || 
+    /^[0-9]{10,10}$/.test(str))
+    {
+    return true;
+  } else return false;
+}

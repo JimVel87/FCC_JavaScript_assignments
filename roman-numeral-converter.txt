@@ -1,0 +1,64 @@
+function convertToRoman(num) {
+  let romNum = "";
+  let i = 0;
+  if (num >= 1000) {
+    for (i=1; i<=Math.floor(num/1000); i++) {
+      romNum += 'M';
+    }
+    num -= (i-1)*1000;
+  }
+  if (num >= 900) {
+    romNum += 'CM';
+    num -= 900;
+  }
+  if (num >= 500) {
+  romNum += 'D';
+  num -= 500;
+  }
+  if (num >= 400) {
+  romNum += 'CD';
+  num -= 400;
+  }
+  if (num >= 100) {
+    for (i=1; i<=Math.floor(num/100); i++) {
+      romNum += 'C';
+    }
+    num -= (i-1)*100;
+  }
+  if (num >= 90) {
+  romNum += 'XC';
+  num -= 90;
+  }
+  if (num >= 50) {
+  romNum += 'L';
+  num -= 50;
+  }
+  if (num >= 40) {
+  romNum += 'XL';
+  num -= 40;
+  }
+  if (num >= 10) {
+    for (i=1; i<=Math.floor(num/10); i++) {
+      romNum += 'X';
+    }
+    num -= (i-1)*10;
+  }
+  if (num >= 9) {
+  romNum += 'IX';
+  num -= 9;
+  }
+  if (num >= 5) {
+  romNum += 'V';
+  num -= 5;
+  }
+  if (num >= 4) {
+  romNum += 'IV';
+  num -= 4;
+  }
+  if (num >= 1) {
+    for (i=1; i<=num; i++) {
+      romNum += 'I';
+    }
+  }
+  return romNum;
+}
